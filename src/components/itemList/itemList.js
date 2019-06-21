@@ -36,9 +36,9 @@ export default class ItemList extends Component {
         return arr.map((item, i) => {
             return (
                 <li 
-                    key={this.htmlId()}
+                    key={item.id}
                     className="list-group-item"
-                    onClick={() => this.props.onCharSelected(41 + i)}>
+                    onClick={() => this.props.onCharSelected(i + 41)}>
                     {item.name}
                 </li>
             )
@@ -54,6 +54,7 @@ export default class ItemList extends Component {
 
     onError = () => {
         this.setState({
+            loading : false,
             error : true,
         })
     }
