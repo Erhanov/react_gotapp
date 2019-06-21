@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {Col, Row, Container, Button} from 'reactstrap';
 import Header from '../header';
 import RandomChar from '../randomChar';
@@ -7,36 +7,57 @@ import CharDetails from '../charDetails';
 import GotServices from '../../services/gotService';
 import './toggle.css';
 
-const toggleRandomCharacter = () => {
-    let randomBlock = document.querySelector('.offset-lg-0');
-    randomBlock.style.display = (randomBlock.style.display === 'block') ? 'none' : 'block'
-}
 
-const App = () => {
-    return (
-        <> 
-            <Container>
-                <Header />
-            </Container>
-            <Container>
-                <Row>
-                    <Col lg={{size: 5, offset: 0}}>
-                        <RandomChar/>
-                        
-                    </Col>
-                </Row>
-                <Button className='bottomMargin' outline color="primary" onClick={toggleRandomCharacter}>Toggle Random Character</Button>
-                <Row>
-                    <Col md='6'>
-                        <ItemList />
-                    </Col>
-                    <Col md='6'>
-                        <CharDetails />
-                    </Col>
-                </Row>
-            </Container>
-        </>
-    );
+
+export default class App extends Component {
+    constructor() {
+        super();
+        this.toggleRandomCharacter();
+    }
+
+    state = {
+        counter : true
+    }
+
+    toggleRandomCharacter = () => {
+        if (this.state.counter === true) {
+            this.setState({
+                counter : false
+            })
+        } else if (this.state.counter === false) {
+            this.setState({
+                counter : true
+            })
+        }
+    }
+
+    render () {
+        const {counter} = this.state;
+
+        const characterBlock = counter ? <RandomChar/> : null;
+
+        return (
+            <> 
+                <Container>
+                    <Header />
+                </Container>
+                <Container>
+                    <Row>
+                        <Col lg={{size: 5, offset: 0}}>
+                            {characterBlock}
+                        </Col>
+                    </Row>
+                    <Button className='bottomMargin' outline color="primary" onClick={this.toggleRandomCharacter}>Toggle Random Character</Button>
+                    <Row>
+                        <Col md='6'>
+                            <ItemList />
+                        </Col>
+                        <Col md='6'>
+                            <CharDetails />
+                        </Col>
+                    </Row>
+                </Container>
+            </>
+        );
+    }
 };
-
-export default App;
