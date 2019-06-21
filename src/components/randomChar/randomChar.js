@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 import gotService from '../../services/gotService';
 import Spinner from '../spinner';
-import ErrorMessage from '../errorMessage'
+import ErrorMessage from '../errorMessage';
 
 const RandomBlock = styled.div`
     background-color: #fff;
@@ -19,10 +19,6 @@ const Term = styled.span`
 `
 
 export default class RandomChar extends Component {
-    constructor() {
-        super();
-        this.updateChar();
-    }
 
     gotService = new gotService();
 
@@ -32,6 +28,15 @@ export default class RandomChar extends Component {
         error : false
     }
 
+    componentDidMount() {
+        this.updateChar();
+        this.timerId = setInterval(this.updateChar, 1500);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timerId);
+    }
+
     onCharLoaded = (char) => {
         this.setState({
             char,
@@ -39,14 +44,14 @@ export default class RandomChar extends Component {
         })
     }
 
-    onError = (err) => {
+    onError = () => {
         this.setState({
             error : true,
             loading : false
         })
     }
 
-    updateChar() {
+    updateChar = () => {
         const id = Math.floor(Math.random()*140 + 25);
         this.gotService.getCharacter(id)
             .then(this.onCharLoaded)
@@ -73,25 +78,34 @@ export default class RandomChar extends Component {
 
 const View = ({char}) => {
     const {name, gender, born, died, culture} = char;
+
+    let emptyCheck = (string) => {
+        if (string === '') {
+            return 'no data :(';
+        } else {
+            return string;
+        }
+    }
+
     return (
         <>
-            <h4>Random Character: {name}</h4>
+            <h4>Random Character: {emptyCheck(name)}</h4>
             <ul className="list-group list-group-flush">
                 <li className="list-group-item d-flex justify-content-between">
                     <Term className="term">Gender </Term>
-                    <span>{gender}</span>
+                    <span>{emptyCheck(gender)}</span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between">
                     <Term className="term">Born </Term>
-                    <span>{born}</span>
+                    <span>{emptyCheck(born)}</span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between">
                     <Term className="term">Died </Term>
-                    <span>{died}</span>
+                    <span>{emptyCheck(died)}</span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between">
                     <Term className="term">Culture </Term>
-                    <span>{culture}</span>
+                    <span>{emptyCheck(culture)}</span>
                 </li>
             </ul>
         </>

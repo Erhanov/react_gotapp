@@ -2,9 +2,8 @@ import React, {Component} from 'react';
 import {Col, Row, Container, Button} from 'reactstrap';
 import Header from '../header';
 import RandomChar from '../randomChar';
-import ItemList from '../itemList';
-import CharDetails from '../charDetails';
-import GotServices from '../../services/gotService';
+import ErrorMessage from '../errorMessage';
+import CharacterPage from '../characterPage';
 import './toggle.css';
 
 
@@ -16,7 +15,16 @@ export default class App extends Component {
     }
 
     state = {
-        counter : true
+        counter : true,
+        selectedChar : 130,
+        error : false
+    }
+
+    componentDidCatch() {
+        console.log('error');
+        this.setState({
+            error : true
+        })
     }
 
     toggleRandomCharacter = () => {
@@ -42,6 +50,10 @@ export default class App extends Component {
 
         const characterBlock = counter ? <RandomChar/> : null;
 
+        if (this.state.error) {
+            return <ErrorMessage/>
+        }
+
         return (
             <> 
                 <Container>
@@ -54,14 +66,7 @@ export default class App extends Component {
                         </Col>
                     </Row>
                     <Button className='bottomMargin' outline color="primary" onClick={this.toggleRandomCharacter}>Toggle Random Character</Button>
-                    <Row>
-                        <Col md='6'>
-                            <ItemList />
-                        </Col>
-                        <Col md='6'>
-                            <CharDetails />
-                        </Col>
-                    </Row>
+                    <CharacterPage/>
                 </Container>
             </>
         );
