@@ -10,13 +10,6 @@ const ItemListGroup = styled.ul`
     }
 `
 export default class ItemList extends Component {
-    
-    htmlId = function guidGenerator() {
-        let S4 = function() {
-           return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-        };
-        return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
-    };
 
     gotService = new gotService();
 
@@ -38,7 +31,7 @@ export default class ItemList extends Component {
                 <li 
                     key={item.id}
                     className="list-group-item"
-                    onClick={() => this.props.onCharSelected(i + 41)}>
+                    onClick={() => {this.props.onCharSelected(item.id);}  }>
                     {item.name}
                 </li>
             )

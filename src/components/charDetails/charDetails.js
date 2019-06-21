@@ -39,6 +39,8 @@ export default class CharDetails extends Component {
             return;
         } 
 
+        this.setState({ loading : true});
+
         this.gotService.getCharacter(charId)
                     .then(this.onCharLoaded)
                     .catch(this.onError);
