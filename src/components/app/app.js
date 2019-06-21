@@ -20,15 +20,21 @@ export default class App extends Component {
     }
 
     toggleRandomCharacter = () => {
-        if (this.state.counter === true) {
-            this.setState({
-                counter : false
-            })
-        } else if (this.state.counter === false) {
-            this.setState({
-                counter : true
-            })
-        }
+        // this.setState({
+        //     counter : !this.state.counter // Решение 2 уровня
+        // })
+
+        this.setState( state => ({counter: !state.counter })) // Решение 3 уровня
+
+        // if (this.state.counter === true) {
+        //     this.setState({
+        //         counter : false
+        //     })
+        // } else if (this.state.counter === false) {  // Решение 1  уровня
+        //     this.setState({
+        //         counter : true
+        //     })
+        // }
     }
 
     render () {
