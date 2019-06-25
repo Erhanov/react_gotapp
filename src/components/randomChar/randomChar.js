@@ -20,10 +20,6 @@ const Term = styled.span`
 `
 
 export default class RandomChar extends Component {
-    constructor() {
-        super();
-        this.toggleRandomCharacter();
-    }
 
     gotService = new gotService();
 
@@ -54,11 +50,10 @@ export default class RandomChar extends Component {
         // this.setState({
         //     counter : !this.state.counter // Решение 2 уровня
         // })
-        this.setState({
-            loading : true
-        })
+        
+        this.setState( state => ({counter: !state.counter,
+                                    loading: true })) // Решение 3 уровня
         this.updateChar();
-        this.setState( state => ({counter: !state.counter })) // Решение 3 уровня
 
         // if (this.state.counter === true) {
         //     this.setState({

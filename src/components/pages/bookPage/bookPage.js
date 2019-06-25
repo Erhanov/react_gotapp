@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {Col, Row, Container, Button} from 'reactstrap';
 import ItemList from '../../itemList';
-import CharDetails, {Field} from '../../charDetails';
+import CharDetails, {Field} from '../../itemDetails';
 import ErrorMessage from '../../errorMessage';
 import gotService from '../../../services/gotService';
 import RowBlock from '../../rowBlock';
@@ -39,7 +38,7 @@ export default class BookPage extends Component {
                 renderItem={({name}) => `${name}`}/>
         )
 
-        const charDetails = (
+        const itemDetails = (
             <CharDetails 
                 charId={this.state.selectedChar}
                 getData={this.gotService.getBook}>
@@ -50,7 +49,7 @@ export default class BookPage extends Component {
         )
 
         return (
-            <RowBlock left={itemList} right={charDetails}/>
+            <RowBlock left={itemList} right={itemDetails}/>
         )
     }
 }
