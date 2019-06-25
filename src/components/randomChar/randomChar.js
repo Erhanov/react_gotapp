@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
+import {Button} from 'reactstrap';
 import gotService from '../../services/gotService';
 import Spinner from '../spinner';
 import ErrorMessage from '../errorMessage';
@@ -19,22 +20,55 @@ const Term = styled.span`
 `
 
 export default class RandomChar extends Component {
+    constructor() {
+        super();
+        this.toggleRandomCharacter();
+    }
 
     gotService = new gotService();
 
     state = {
         char : {},
+        counter : true,
         loading : true,
         error : false
     }
 
-    componentDidMount() {
-        this.updateChar();
-        this.timerId = setInterval(this.updateChar, 1500);
+    componentDidCatch() {
+        console.log('error');
+        this.setState({
+            error : true
+        })
     }
 
-    componentWillUnmount() {
-        clearInterval(this.timerId);
+    componentDidMount() {
+        this.updateChar();
+        // this.timerId = setInterval(this.updateChar, 1500);
+    }
+
+    // componentWillUnmount() {
+    //     clearInterval(this.timerId);
+    // }
+
+    toggleRandomCharacter = () => {
+        // this.setState({
+        //     counter : !this.state.counter // Решение 2 уровня
+        // })
+        this.setState({
+            loading : true
+        })
+        this.updateChar();
+        this.setState( state => ({counter: !state.counter })) // Решение 3 уровня
+
+        // if (this.state.counter === true) {
+        //     this.setState({
+        //         counter : false
+        //     })
+        // } else if (this.state.counter === false) {  // Решение 1  уровня
+        //     this.setState({
+        //         counter : true
+        //     })
+        // }
     }
 
     onCharLoaded = (char) => {
@@ -60,18 +94,28 @@ export default class RandomChar extends Component {
 
     render() {
 
-        const {char, loading, error} = this.state;
+        const {char, counter, loading, error} = this.state;
+
+       
 
         const errorMessage = error ? <ErrorMessage/> : null;
         const spinner = loading ? <Spinner/> : null
         const content = !(loading || error) ? <View char={char}/> : null;  
-
+        const characterBlock = counter ? <RandomBlock>
+                                            {errorMessage}
+                                            {spinner}
+                                            {content}
+                                        </RandomBlock> : null;
         return (
-            <RandomBlock className="rounded">
-                {errorMessage}
-                {spinner}
-                {content}
-            </RandomBlock>
+            <>
+                {characterBlock}
+                <Button 
+                    className='bottomMargin' 
+                    outline color="primary" 
+                    onClick={this.toggleRandomCharacter}>
+                        Toggle Random Character
+                </Button>
+            </>
         );
     }
 }
@@ -80,7 +124,7 @@ const View = ({char}) => {
     const {name, gender, born, died, culture} = char;
 
     let emptyCheck = (string) => {
-        if (string === '') {
+        if (string === '' || string[0] === '') {
             return 'no data :(';
         } else {
             return string;

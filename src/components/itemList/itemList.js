@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
-import gotService from '../../services/gotService';
 import Spinner from '../spinner';
 import ErrorMessage from '../errorMessage';
 
@@ -11,36 +10,39 @@ const ItemListGroup = styled.ul`
 `
 export default class ItemList extends Component {
 
-    gotService = new gotService();
-
     state = {
-        charList : null,
+        itemList : null,
         loading : true,
         error : false
     }
 
     componentDidMount() {
-        this.gotService.getAllCharacters()
-                            .then(this.onCharLoaded)
-                            .catch(this.onError);
+        const {getData} = this.props;
+
+        getData()
+            .then(this.onCharLoaded)
+            .catch(this.onError);
     }
 
     renderItems(arr) {
         return arr.map((item, i) => {
+            const {id} = item;
+            const label = this.props.renderItem(item);
+
             return (
                 <li 
-                    key={item.id}
+                    key={id}
                     className="list-group-item"
-                    onClick={() => {this.props.onCharSelected(item.id);}  }>
-                    {item.name}
+                    onClick={() => {this.props.onItemSelected(item.id);} }>
+                    {label}
                 </li>
             )
         })
     }
 
-    onCharLoaded = (charList) => {
+    onCharLoaded = (itemList) => {
         this.setState({
-            charList,
+            itemList,
             loading : false,
         })
     }
@@ -54,11 +56,11 @@ export default class ItemList extends Component {
 
     render() {
 
-        const {charList, loading, error} = this.state;
+        const {itemList, loading, error} = this.state;
 
         const errorMessage = error ? <ErrorMessage/> : null;
         const spinner = loading ? <Spinner/> : null
-        const items = !(loading || error) ? this.renderItems(charList) : null; 
+        const items = !(loading || error) ? this.renderItems(itemList) : null; 
 
 
         return (

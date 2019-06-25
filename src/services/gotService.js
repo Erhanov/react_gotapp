@@ -4,7 +4,7 @@ export default class GotService {
         this._apiBase = 'https://www.anapioficeandfire.com/api';
     }
 
-    async getResource (url) {
+    getResource = async (url) => {
         const res = await fetch(`${this._apiBase}${url}`);
     
         if (!res.ok) {
@@ -14,32 +14,32 @@ export default class GotService {
         return await res.json();
     };
 
-    async getAllHouses() {
+    getAllHouses = async () => {
         const result = await this.getResource("/houses");
         return result.map(this._transformHouses);
     }
 
-    async getAllBooks() {
+    getAllBooks = async () => {
         const result = await this.getResource("/books");
         return result.map(this._transformBook);
     }
 
-    async getAllCharacters() {
+    getAllCharacters = async () => {
         const result = await this.getResource("/characters?page=5&pageSize=10");
         return result.map(this._transformCharacter);
     }
 
-    async getHouse(id) {
-        const house = await this.getResource(`/houses/${id}`)
+    getHouse = async (id) => {
+        const house = await this.getResource(`/houses/${id}`);
         return this._transformHouses(house);
     }
 
-    async getBook(id) {
+    getBook = async (id) => {
         const book = await this.getResource(`/books/${id}`);
         return this._transformBook(book);
     }
 
-    async getCharacter(id) {
+    getCharacter = async (id) => {
         const character = await this.getResource(`/characters/${id}`);
         return this._transformCharacter(character);
     }
@@ -62,8 +62,9 @@ export default class GotService {
             region : house.region,
             words : house.words,
             titles : house.titles,
-            overlords : house.overlords,
-            ancestralWeapons : house.ancestralWeapons
+            overlord : house.overlord,
+            ancestralWeapons : house.ancestralWeapons,
+            id : house.url.replace(/\D+/, '')
         }
     }
 
@@ -71,8 +72,9 @@ export default class GotService {
         return {
             name : book.name,
             numberOfPages : book.numberOfPages,
-            publiser : book.publiser,
-            released : book.released
+            publisher : book.publisher,
+            released : book.released,
+            id : book.url.replace(/\D+/, '')
         }
     }
 }

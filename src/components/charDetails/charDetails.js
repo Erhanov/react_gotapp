@@ -13,6 +13,27 @@ const CharDetailsBlock = styled.div`
         text-align: center;
     }
 `
+
+const Field = ({char, field, label}) => {
+    let emptyCheck = (string) => {
+        if (string === '' || string[0] === '') {
+            return 'no data :(';
+        } else {
+            return string;
+        }
+    }
+
+    return (
+        <li className="list-group-item d-flex justify-content-between">
+            <span className="term">{label}</span>
+            <span>{emptyCheck(char[field])}</span>
+        </li>
+    )
+}
+
+export {
+    Field
+}
 export default class CharDetails extends Component {
 
     gotService = new gotService();
@@ -34,16 +55,16 @@ export default class CharDetails extends Component {
     }
 
     updateChar = () => {
-        const {charId} = this.props;
+        const {charId, getData} = this.props;
         if (!charId) {
             return;
         } 
 
         this.setState({ loading : true});
 
-        this.gotService.getCharacter(charId)
-                    .then(this.onCharLoaded)
-                    .catch(this.onError);
+        getData(charId)
+            .then(this.onCharLoaded)
+            .catch(this.onError);
     }
 
     onCharLoaded = (char) => {
@@ -61,6 +82,23 @@ export default class CharDetails extends Component {
     }
 
     render() {
+        const View = ({char}) => {
+            
+            const {name} = char;
+
+            return (
+                <>
+                    <h4>{name}</h4>
+                    <ul className="list-group list-group-flush">
+                        {
+                            React.Children.map(this.props.children, (child) => {
+                                return React.cloneElement(child, {char});
+                            })
+                        }
+                    </ul>
+                </>
+            )
+        }
         const {char, loading, error} = this.state;
 
         const errorMessage = error ? <ErrorMessage/> : null;
@@ -75,40 +113,4 @@ export default class CharDetails extends Component {
             </CharDetailsBlock>
         );
     }
-}
-
-const View = ({char}) => {
-    const {name, gender, born, died, culture} = char;
-
-    let emptyCheck = (string) => {
-        if (string === '') {
-            return 'no data :(';
-        } else {
-            return string;
-        }
-    }
-
-    return (
-        <>
-            <h4>{emptyCheck(name)}</h4>
-            <ul className="list-group list-group-flush">
-                <li className="list-group-item d-flex justify-content-between">
-                    <span className="term">Gender</span>
-                    <span>{emptyCheck(gender)}</span>
-                </li>
-                <li className="list-group-item d-flex justify-content-between">
-                    <span className="term">Born</span>
-                    <span>{emptyCheck(born)}</span>
-                </li>
-                <li className="list-group-item d-flex justify-content-between">
-                    <span className="term">Died</span>
-                    <span>{emptyCheck(died)}</span>
-                </li>
-                <li className="list-group-item d-flex justify-content-between">
-                    <span className="term">Culture</span>
-                    <span>{emptyCheck(culture)}</span>
-                </li>
-            </ul>
-        </>
-    )
 }
