@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {Col, Row, Container} from 'reactstrap';
 import Header from '../header';
 import RandomChar from '../randomChar';
-import CharacterPage from '../characterPage';
-import BookPage from '../bookPage';
-import HousePage from '../housePage';
+import CharacterPage from '../pages/characterPage';
+import BookPage from '../pages/bookPage';
+import HousePage from '../pages/housePage';
 import './toggle.css';
 
 

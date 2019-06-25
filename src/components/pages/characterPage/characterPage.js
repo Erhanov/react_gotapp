@@ -1,16 +1,14 @@
 import React, {Component} from 'react';
 import {Col, Row, Container, Button} from 'reactstrap';
-import ItemList from '../itemList';
-import CharDetails, {Field} from '../charDetails';
-import ErrorMessage from '../errorMessage';
-import gotService from '../../services/gotService';
-import RowBlock from '../rowBlock';
-
-
-export default class BookPage extends Component {
+import ItemList from '../../itemList';
+import CharDetails, {Field} from '../../charDetails';
+import ErrorMessage from '../../errorMessage';
+import gotService from '../../../services/gotService';
+import RowBlock from '../../rowBlock';
+export default class CharacterPage extends Component {
     gotService = new gotService();
     state = {
-        selectedChar : 12,
+        selectedChar : 130,
         error : false
     }
 
@@ -35,19 +33,18 @@ export default class BookPage extends Component {
         const itemList = (
             <ItemList 
                 onItemSelected={this.onItemSelected}
-                getData={this.gotService.getAllHouses}
-                renderItem={({name}) => `${name}`}/>
+                getData={this.gotService.getAllCharacters}
+                renderItem={({name, gender}) => `${name} (${gender})`}/>
         )
 
         const charDetails = (
             <CharDetails 
                 charId={this.state.selectedChar}
-                getData={this.gotService.getHouse}>
-                <Field field='region' label='Region'/>
-                <Field field='words' label='Words'/>
-                <Field field='titles' label='Titles'/>
-                <Field field='overlord' label='Overlord'/>
-                <Field field='ancestralWeapons' label='AncestralWeapons'/>
+                getData={this.gotService.getCharacter}>
+                <Field field='gender' label='Gender'/>
+                <Field field='born' label='Born'/>
+                <Field field='died' label='Died'/>
+                <Field field='culture' label='Culture'/>
             </CharDetails>
         )
 

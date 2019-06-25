@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {Col, Row, Container, Button} from 'reactstrap';
-import ItemList from '../itemList';
-import CharDetails, {Field} from '../charDetails';
-import ErrorMessage from '../errorMessage';
-import gotService from '../../services/gotService';
-import RowBlock from '../rowBlock';
+import ItemList from '../../itemList';
+import CharDetails, {Field} from '../../charDetails';
+import ErrorMessage from '../../errorMessage';
+import gotService from '../../../services/gotService';
+import RowBlock from '../../rowBlock';
 
 
 export default class BookPage extends Component {
