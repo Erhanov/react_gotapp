@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import './errorMessage.css';
 import img from './oops.png';
 

@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import {Col, Row, Container, Button} from 'reactstrap';
 import ItemList from '../../itemList';
 import CharDetails, {Field} from '../../itemDetails';
 import ErrorMessage from '../../errorMessage';
 import gotService from '../../../services/gotService';
 import RowBlock from '../../rowBlock';
-
+import {Button} from 'reactstrap';
+import {Link} from 'react-router-dom';
 
 export default class BookPage extends Component {
     gotService = new gotService();
@@ -52,7 +52,14 @@ export default class BookPage extends Component {
         )
 
         return (
-            <RowBlock left={itemList} right={itemDetails}/>
+            <>
+                <RowBlock className='bottomMargin' left={itemList} right={itemDetails}/>
+                <Button 
+                    className='bottomMargin' 
+                    outline color="primary">
+                        <Link to='/'>Back</Link>
+                </Button>
+            </>
         )
     }
 }
