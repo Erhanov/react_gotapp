@@ -25,18 +25,19 @@ class BookPage extends Component {
 
         return (
             <>
-                <ItemList
-                    className='bottomMargin'  
+                <ItemList 
                     onItemSelected={(itemId) => {
                         this.props.history.push(itemId)
                     }}
                     getData={this.gotService.getAllBooks}
                     renderItem={({name}) => `${name}`}/>
-                <Button 
+                <Link to='/'>
+                    <Button 
                     className='bottomMargin' 
                     outline color="primary">
-                        <Link to='/'>Back</Link>
-                </Button>
+                        Back
+                    </Button>
+                </Link>
             </>
         )
     }

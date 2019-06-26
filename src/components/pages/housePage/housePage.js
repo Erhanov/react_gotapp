@@ -53,12 +53,14 @@ export default class BookPage extends Component {
 
         return (
             <>
-                <RowBlock className='bottomMargin' left={itemList} right={itemDetails}/>
-                <Button 
+                <RowBlock left={itemList} right={itemDetails}/>
+                <Link to='/'>
+                    <Button 
                     className='bottomMargin' 
                     outline color="primary">
-                        <Link to='/'>Back</Link>
-                </Button>
+                        Back
+                    </Button>
+                </Link>
             </>
         )
     }

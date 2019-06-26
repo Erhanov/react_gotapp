@@ -47,23 +47,9 @@ export default class RandomChar extends Component {
     // }
 
     toggleRandomCharacter = () => {
-        // this.setState({
-        //     counter : !this.state.counter // Решение 2 уровня
-        // })
-        
         this.setState( state => ({counter: !state.counter,
-                                    loading: true })) // Решение 3 уровня
+                                    loading: true }))
         this.updateChar();
-
-        // if (this.state.counter === true) {
-        //     this.setState({
-        //         counter : false
-        //     })
-        // } else if (this.state.counter === false) {  // Решение 1  уровня
-        //     this.setState({
-        //         counter : true
-        //     })
-        // }
     }
 
     onCharLoaded = (char) => {
@@ -100,7 +86,7 @@ export default class RandomChar extends Component {
                                             {errorMessage}
                                             {spinner}
                                             {content}
-                                        </RandomBlock> : null;
+                                         </RandomBlock> : null; 
         return (
             <>
                 {characterBlock}

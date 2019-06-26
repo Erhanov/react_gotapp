@@ -17,11 +17,13 @@ export default class BookItem extends Component {
                     <Field field='publisher' label='Publisher'/>
                     <Field field='released' label='Released'/>
                 </ItemDetails>
-                <Button 
+                <Link to='/books/'>
+                    <Button 
                     className='bottomMargin' 
                     outline color="primary">
-                        <Link to='/books/'>Back</Link>
-                </Button>
+                        Back
+                    </Button>
+                </Link>
             </>
         )
     }
